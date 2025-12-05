@@ -1,0 +1,44 @@
+esphome:
+  name: m5coreink_ntp_clock
+  platform: ESP32
+  board: m5stack-core-ink
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+  ap:
+    ssid: "m5coreink_ntp_clock_fallback"
+    password: "fallback_password"
+
+captive_portal:
+
+logger:
+
+api:
+
+ota:
+
+time:
+  - platform: sntp
+    id: sntp_time
+    timezone: America/Toronto
+
+font:
+  - file: "gfonts://Roboto"
+    id: font1
+    size: 28
+
+display:
+  - platform: st7789
+    model: "M5Stack CoreInk"
+    cs_pin: 5
+    dc_pin: 15
+    reset_pin: 4
+    rotation: 0
+    id: m5coreink_display
+    lambda: |-
+      if (id(sntp_time).now().is_valid()) {
+        it.printf(0, 10, id(font1), "%02d:%02d:%02d", id(sntp_time).now().hour, id(sntp_time).now().minute, id(sntp_time).now().second);
+      } else {
+        it.print(0, 10, id(font1), "Syncing...");
+      }
