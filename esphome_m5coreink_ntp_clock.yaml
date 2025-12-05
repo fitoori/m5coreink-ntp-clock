@@ -23,6 +23,10 @@ time:
     id: sntp_time
     timezone: America/Toronto
 
+spi:
+  clk_pin: 18
+  mosi_pin: 23
+
 font:
   - file: "gfonts://Roboto"
     id: font1
@@ -30,7 +34,7 @@ font:
 
 display:
   - platform: st7789
-    model: "M5Stack CoreInk"
+    model: "1.54in-m5coreink-m09"
     cs_pin: 5
     dc_pin: 15
     reset_pin: 4
